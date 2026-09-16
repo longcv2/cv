@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CV Form - Mẫu Long</title>
+<style>
+    *{box-sizing:border-box}
+    body{
+        margin:0;
+        background:#f2f2f2;
+        font-family:Georgia,"Times New Roman",serif;
+        color:#171717;
+    }
+    .app{
+        max-width:1500px;
+        margin:25px auto;
+        display:grid;
+        grid-template-columns:380px 1fr;
+        gap:24px;
+        align-items:start;
+    }
+    .editor{
+        background:#fff;
+        border-radius:10px;
+        padding:22px;
+        box-shadow:0 5px 25px rgba(0,0,0,.08);
+        position:sticky;
+        top:20px;
+        max-height:calc(100vh - 40px);
+        overflow:auto;
+        font-family:Arial,sans-serif;
+    }
+    .editor h2{margin:0 0 6px;font-size:23px}
+    .editor .sub{color:#777;font-size:13px;margin-bottom:20px}
+    .group{
+        border-top:1px solid #ddd;
+        padding-top:15px;
+        margin-top:15px;
+    }
+    .group h3{
+        margin:0 0 12px;
+        font-size:14px;
+        text-transform:uppercase;
+    }
+    label{
+        display:block;
+        font-size:12px;
+        color:#555;
+        margin:9px 0 5px;
+    }
+    input,textarea,select{
+        width:100%;
+        border:1px solid #d4d4d4;
+        border-radius:6px;
+        padding:9px 10px;
+        font:14px Arial,sans-serif;
+        outline:none;
+    }
+    input:focus,textarea:focus,select:focus{border-color:#777}
+    textarea{min-height:70px;resize:vertical}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+    .actions{
+        display:flex;
+        gap:8px;
+        margin-top:18px;
+    }
+    button{
+        border:0;
+        border-radius:6px;
+        padding:10px 13px;
+        cursor:pointer;
+        font-weight:600;
+    }
+    .btn-print{background:#111;color:#fff}
+    .btn-reset{background:#eee;color:#222}
+
+    .paper-wrap{display:flex;justify-content:center}
+    .paper{
+        width:210mm;
+        min-height:297mm;
+        background:#fff;
+        padding:14mm 7mm 12mm;
+        box-shadow:0 5px 25px rgba(0,0,0,.13);
+        position:relative;
+        overflow:hidden;
+    }
+    .top-line{
+        position:absolute;
+        left:0;right:0;top:0;height:2px;
+        background:#d9eee2;
+    }
+    .header{text-align:center;margin-bottom:29px;position:relative;min-height:95px}
+    .photo-preview{position:absolute;right:4px;top:0;width:82px;height:105px;object-fit:cover;border:1px solid #ccc;display:none;background:#f7f7f7}
+    .photo-label{display:flex;align-items:center;gap:8px;margin-top:8px;font-size:12px;color:#555}
+    .photo-label input{padding:7px}
+    .btn-pdf{background:#333;color:#fff}
+    .btn-image{background:#dfeee5;color:#173b27}
+    .name{
+        font-size:31px;
+        font-weight:bold;
+        margin:3px 0 12px;
+    }
+    .position{
+        color:#999;
+        font-style:italic;
+        font-size:17px;
+        margin-bottom:17px;
+    }
+    .contact{
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        gap:13px;
+        flex-wrap:wrap;
+        font-size:14px;
+    }
+    .contact span{white-space:nowrap}
+    .icon{font-family:Arial,sans-serif;font-size:15px;margin-right:5px}
+    .section{margin-top:24px}
+    .section-title{
+        font-size:19px;
+        font-weight:bold;
+        margin:0 0 10px;
+        padding-bottom:5px;
+        border-bottom:1.5px solid #222;
+        text-transform:uppercase;
+    }
+    .muted{
+        color:#999;
+        font-style:italic;
+    }
+    .objective{
+        font-size:15px;
+        min-height:26px;
+    }
+    .entry{
+        padding:0 4px 11px;
+        border-bottom:1px solid #eee;
+        margin-bottom:10px;
+    }
+    .entry:last-child{border-bottom:0;margin-bottom:0}
+    .entry-head{
+        display:flex;
+        justify-content:space-between;
+        gap:15px;
+        font-size:15px;
+    }
+    .entry-head strong{font-style:italic}
+    .date{white-space:nowrap;text-align:right}
+    .entry-line{
+        margin-top:10px;
+        font-size:15px;
+        font-style:italic;
+    }
+    .entry-desc{
+        margin-top:8px;
+        font-size:14px;
+        line-height:1.45;
+        white-space:pre-line;
+    }
+    .skills-table{width:100%;border-collapse:collapse;font-size:14px}
+    .skills-table td{
+        border-bottom:1px solid #eee;
+        padding:9px 4px;
+        vertical-align:top;
+    }
+    .skills-table td:first-child{width:27%}
+    .two-col{
+        display:grid;
+        grid-template-columns:1fr 1fr;
+        gap:35px;
+    }
+    .bottom-info{
+        border:1px dashed #aaa;
+        min-height:42px;
+        padding:8px;
+        font-size:14px;
+    }
+
+    @media(max-width:1050px){
+        .app{grid-template-columns:1fr;margin:10px}
+        .editor{position:relative;top:auto;max-height:none}
+        .paper-wrap{overflow:auto;justify-content:flex-start}
+    }
+    @media print{
+        body{background:#fff}
+        .app{display:block;margin:0}
+        .editor{display:none}
+        .paper{
+            box-shadow:none;
+            width:210mm;
+            min-height:297mm;
+            margin:0;
+        }
+        @page{size:A4;margin:0}
+    }
+</style>
+</head>
+<body>
+
+<div class="app">
+    <aside class="editor">
+        <h2>CV Form</h2>
+        <div class="sub">Nhập thông tin bên dưới — CV bên phải tự cập nhật.</div>
+
+        <div class="group">
+            <h3>Thông tin cá nhân</h3>
+            <label>Ảnh đại diện</label>
+            <input id="photo" type="file" accept="image/png,image/jpeg,image/webp">
+            <div style="font-size:11px;color:#888;margin-top:5px">JPG, PNG hoặc WEBP — ảnh sẽ hiển thị trên CV.</div>
+            <label>Họ và tên</label>
+            <input id="name" placeholder="Họ và tên">
+            <label>Vị trí ứng tuyển</label>
+            <input id="position" placeholder="Ví dụ: Frontend Developer">
+            <div class="row">
+                <div>
+                    <label>Điện thoại</label>
+                    <input id="phone" placeholder="Điện thoại">
+                </div>
+                <div>
+                    <label>Email</label>
+                    <input id="email" placeholder="Email">
+                </div>
+            </div>
+            <label>Địa chỉ</label>
+            <input id="address" placeholder="Địa chỉ">
+        </div>
+
+        <div class="group">
+            <h3>Mục tiêu nghề nghiệp</h3>
+            <textarea id="objective" placeholder="Mục tiêu nghề nghiệp..."></textarea>
+        </div>
+
+        <div class="group">
+            <h3>Học vấn</h3>
+            <input id="school" placeholder="Tên trường học">
+            <div class="row">
+                <input id="studyStart" placeholder="Bắt đầu">
+                <input id="studyEnd" placeholder="Kết thúc">
+            </div>
+            <input id="major" placeholder="Ngành học / Môn học">
+            <textarea id="studyDesc" placeholder="Mô tả quá trình học tập hoặc thành tích"></textarea>
+        </div>
+
+        <div class="group">
+            <h3>Kinh nghiệm làm việc</h3>
+            <input id="company1" placeholder="Tên công ty">
+            <div class="row">
+                <input id="workStart1" placeholder="Bắt đầu">
+                <input id="workEnd1" placeholder="Kết thúc">
+            </div>
+            <input id="job1" placeholder="Vị trí công việc">
+            <textarea id="workDesc1" placeholder="Mô tả kinh nghiệm làm việc"></textarea>
+
+            <input id="company2" placeholder="Tên công ty" style="margin-top:8px">
+            <div class="row">
+                <input id="workStart2" placeholder="Bắt đầu">
+                <input id="workEnd2" placeholder="Kết thúc">
+            </div>
+            <input id="job2" placeholder="Vị trí công việc">
+            <textarea id="workDesc2" placeholder="Mô tả kinh nghiệm làm việc"></textarea>
+        </div>
+
+        <div class="group">
+            <h3>Kỹ năng</h3>
+            <div id="skillInputs"></div>
+        </div>
+
+        <div class="group">
+            <h3>Hoạt động</h3>
+            <input id="org" placeholder="Tên tổ chức">
+            <div class="row">
+                <input id="actStart" placeholder="Bắt đầu">
+                <input id="actEnd" placeholder="Kết thúc">
+            </div>
+            <input id="role" placeholder="Vị trí của bạn">
+            <textarea id="actDesc" placeholder="Mô tả hoạt động"></textarea>
+        </div>
+
+        <div class="group">
+            <h3>Chứng chỉ</h3>
+            <div class="row">
+                <input id="cert1" placeholder="Tên chứng chỉ">
+                <input id="certTime1" placeholder="Thời gian">
+            </div>
+            <div class="row">
+                <input id="cert2" placeholder="Tên chứng chỉ">
+                <input id="certTime2" placeholder="Thời gian">
+            </div>
+        </div>
+
+        <div class="group">
+            <h3>Danh hiệu & giải thưởng</h3>
+            <div class="row">
+                <input id="award" placeholder="Tên giải thưởng">
+                <input id="awardTime" placeholder="Thời gian">
+            </div>
+        </div>
+
+        <div class="group">
+            <h3>Người giới thiệu</h3>
+            <div class="row">
+                <textarea id="ref1" placeholder="Thông tin người tham chiếu"></textarea>
+                <textarea id="ref2" placeholder="Thông tin người tham chiếu"></textarea>
+            </div>
+        </div>
+
+        <div class="group">
+            <h3>Sở thích</h3>
+            <input id="hobby" placeholder="Điền các sở thích của bạn">
+        </div>
+
+        <div class="group">
+            <h3>Thông tin thêm</h3>
+            <textarea id="more" placeholder="Điền thông tin thêm nếu có"></textarea>
+        </div>
+
+        <div class="actions" style="flex-wrap:wrap">
+            <button class="btn-pdf" onclick="downloadPDF()">📄 Tải file PDF</button>
+            <button class="btn-image" onclick="downloadImage()">🖼 Lưu ảnh CV</button>
+            <button class="btn-print" onclick="window.print()">🖨 In</button>
+            <button class="btn-reset" onclick="resetCV()">↺ Xóa dữ liệu</button>
+        </div>
+    </aside>
+
+    <main class="paper-wrap">
+        <section class="paper" id="cv">
+            <div class="top-line"></div>
+
+            <header class="header">
+                <img id="photoPreview" class="photo-preview" alt="Ảnh đại diện">
+                <div class="name muted" data-bind="name">Họ và tên</div>
+                <div class="position muted" data-bind="position">Vị trí ứng tuyển</div>
+                <div class="contact">
+                    <span><b class="icon">☎</b><span data-bind="phone">Điện thoại</span></span>
+                    <span><b class="icon">✉</b><span data-bind="email">Email</span></span>
+                    <span><b class="icon">●</b><span data-bind="address">Địa chỉ</span></span>
+                </div>
+            </header>
+
+            <section class="section">
+                <h2 class="section-title">Mục tiêu nghề nghiệp</h2>
+                <div class="objective muted" data-bind="objective">Mục tiêu nghề nghiệp của bạn, bao gồm mục tiêu ngắn hạn và dài hạn</div>
+            </section>
+
+            <section class="section">
+                <h2 class="section-title">Học vấn</h2>
+                <div class="entry">
+                    <div class="entry-head">
+                        <strong data-bind="school">Tên trường học</strong>
+                        <span class="date muted"><span data-bind="studyStart">Bắt đầu</span> - <span data-bind="studyEnd">Kết thúc</span></span>
+                    </div>
+                    <div class="entry-line muted" data-bind="major">Ngành học / Môn học</div>
+                    <div class="entry-desc muted" data-bind="studyDesc">Mô tả quá trình học tập hoặc thành tích của bạn</div>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2 class="section-title">Kinh nghiệm làm việc</h2>
+                <div class="entry">
+                    <div class="entry-head">
+                        <strong data-bind="company1">Tên công ty</strong>
+                        <span class="date muted"><span data-bind="workStart1">Bắt đầu</span> - <span data-bind="workEnd1">Kết thúc</span></span>
+                    </div>
+                    <div class="entry-line muted" data-bind="job1">Vị trí công việc</div>
+                    <div class="entry-desc muted" data-bind="workDesc1">Mô tả kinh nghiệm làm việc của bạn</div>
+                </div>
+                <div class="entry">
+                    <div class="entry-head">
+                        <strong data-bind="company2">Tên công ty</strong>
+                        <span class="date muted"><span data-bind="workStart2">Bắt đầu</span> - <span data-bind="workEnd2">Kết thúc</span></span>
+                    </div>
+                    <div class="entry-line muted" data-bind="job2">Vị trí công việc</div>
+                    <div class="entry-desc muted" data-bind="workDesc2">Mô tả kinh nghiệm làm việc của bạn</div>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2 class="section-title">Kỹ năng</h2>
+                <table class="skills-table">
+                    <tbody id="skillsPreview"></tbody>
+                </table>
+            </section>
+
+            <section class="section">
+                <h2 class="section-title">Hoạt động</h2>
+                <div class="entry">
+                    <div class="entry-head">
+                        <strong data-bind="org">Tên tổ chức</strong>
+                        <span class="date muted"><span data-bind="actStart">Bắt đầu</span> - <span data-bind="actEnd">Kết thúc</span></span>
+                    </div>
+                    <div class="entry-line muted" data-bind="role">Vị trí của bạn</div>
+                    <div class="entry-desc muted" data-bind="actDesc">Mô tả hoạt động</div>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2 class="section-title">Chứng chỉ</h2>
+                <div class="entry-head" style="padding:0 4px 8px">
+                    <span class="muted" data-bind="cert1">Tên chứng chỉ</span>
+                    <span class="date muted" data-bind="certTime1">Thời gian</span>
+                </div>
+                <div class="entry-head" style="padding:8px 4px;border-top:1px solid #eee">
+                    <span class="muted" data-bind="cert2">Tên chứng chỉ</span>
+                    <span class="date muted" data-bind="certTime2">Thời gian</span>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2 class="section-title">Danh hiệu và giải thưởng</h2>
+                <div class="entry-head" style="padding:0 4px">
+                    <span class="muted" data-bind="award">Tên giải thưởng</span>
+                    <span class="date muted" data-bind="awardTime">Thời gian</span>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2 class="section-title">Người giới thiệu</h2>
+                <div class="two-col">
+                    <div class="muted" data-bind="ref1">Thông tin người tham chiếu bao gồm tên, chức vụ và thông tin liên hệ</div>
+                    <div class="muted" data-bind="ref2">Thông tin người tham chiếu bao gồm tên, chức vụ và thông tin liên hệ</div>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2 class="section-title">Sở thích</h2>
+                <div class="muted" data-bind="hobby">Điền các sở thích của bạn</div>
+            </section>
+
+            <section class="section">
+                <h2 class="section-title">Thông tin thêm</h2>
+                <div class="bottom-info muted" data-bind="more">Điền thông tin thêm nếu có</div>
+            </section>
+        </section>
+    </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+const skillNames = ['HTML / CSS', 'JavaScript', 'Kỹ năng khác'];
+const skillInputs = document.getElementById('skillInputs');
+
+skillNames.forEach((name, i) => {
+    skillInputs.insertAdjacentHTML('beforeend', `
+        <div class="row">
+            <input id="skill${i+1}" placeholder="${name}">
+            <input id="skillDesc${i+1}" placeholder="Mô tả kỹ năng">
+        </div>
+    `);
+});
+
+const defaults = {};
+document.querySelectorAll('input:not([type=\"file\"]), textarea').forEach(el => defaults[el.id] = el.value);
+let photoData = '';
+const photoInput = document.getElementById('photo');
+const photoPreview = document.getElementById('photoPreview');
+photoInput.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    if (!file.type.startsWith('image/')) { alert('Vui lòng chọn file ảnh.'); return; }
+    const reader = new FileReader();
+    reader.onload = ev => {
+        photoData = ev.target.result;
+        photoPreview.src = photoData;
+        photoPreview.style.display = 'block';
+    };
+    reader.readAsDataURL(file);
+});
+
+function updateText(id, value, placeholder='') {
+    document.querySelectorAll(`[data-bind="${id}"]`).forEach(el => {
+        const v = value.trim();
+        el.textContent = v || placeholder;
+        if (!v) el.classList.add('muted');
+        else el.classList.remove('muted');
+    });
+}
+
+function updateAll(){
+    const ids = [
+        ['name','Họ và tên'],['position','Vị trí ứng tuyển'],['phone','Điện thoại'],['email','Email'],
+        ['address',''],['objective','Mục tiêu nghề nghiệp của bạn, bao gồm mục tiêu ngắn hạn và dài hạn'],
+        ['school','Tên trường học'],['studyStart','Bắt đầu'],['studyEnd','Kết thúc'],['major','Ngành học / Môn học'],
+        ['studyDesc','Mô tả quá trình học tập hoặc thành tích của bạn'],
+        ['company1','Tên công ty'],['workStart1','Bắt đầu'],['workEnd1','Kết thúc'],['job1','Vị trí công việc'],
+        ['workDesc1','Mô tả kinh nghiệm làm việc của bạn'],
+        ['company2','Tên công ty'],['workStart2','Bắt đầu'],['workEnd2','Kết thúc'],['job2','Vị trí công việc'],
+        ['workDesc2','Mô tả kinh nghiệm làm việc của bạn'],
+        ['org','Tên tổ chức'],['actStart','Bắt đầu'],['actEnd','Kết thúc'],['role','Vị trí của bạn'],
+        ['actDesc','Mô tả hoạt động'],['cert1','Tên chứng chỉ'],['certTime1','Thời gian'],
+        ['cert2','Tên chứng chỉ'],['certTime2','Thời gian'],['award','Tên giải thưởng'],['awardTime','Thời gian'],
+        ['ref1','Thông tin người tham chiếu bao gồm tên, chức vụ và thông tin liên hệ'],
+        ['ref2','Thông tin người tham chiếu bao gồm tên, chức vụ và thông tin liên hệ'],
+        ['hobby','Điền các sở thích của bạn'],['more','Điền thông tin thêm nếu có']
+    ];
+    ids.forEach(([id,ph]) => {
+        const el=document.getElementById(id);
+        if(el) updateText(id,el.value,ph);
+    });
+
+    const rows = [1,2,3].map(i => {
+        const n=document.getElementById('skill'+i)?.value.trim();
+        const d=document.getElementById('skillDesc'+i)?.value.trim();
+        return `<tr><td class="${n?'':'muted'}">${n || 'Tên kỹ năng'}</td><td class="${d?'':'muted'}">${d || 'Mô tả kỹ năng'}</td></tr>`;
+    }).join('');
+    document.getElementById('skillsPreview').innerHTML=rows;
+}
+
+document.addEventListener('input', updateAll);
+
+function resetCV(){
+    document.querySelectorAll('input:not([type="file"]), textarea').forEach(el => {
+        el.value = defaults[el.id] ?? '';
+    });
+    photoInput.value = '';
+    photoData = '';
+    photoPreview.removeAttribute('src');
+    photoPreview.style.display = 'none';
+    updateAll();
+}
+
+async function downloadImage(){
+    if (typeof html2canvas === 'undefined') {
+        alert('Không tải được thư viện tạo ảnh. Hãy kiểm tra kết nối mạng rồi thử lại.');
+        return;
+    }
+    const cv = document.getElementById('cv');
+    const canvas = await html2canvas(cv, {
+        scale: 2,
+        backgroundColor: '#ffffff',
+        useCORS: true,
+        logging: false
+    });
+    const link = document.createElement('a');
+    link.download = 'CV.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+}
+
+async function downloadPDF(){
+    if (typeof html2canvas === 'undefined' || !window.jspdf) {
+        alert('Không tải được thư viện PDF. Hãy kiểm tra kết nối mạng rồi thử lại.');
+        return;
+    }
+    const cv = document.getElementById('cv');
+    const canvas = await html2canvas(cv, {
+        scale: 2,
+        backgroundColor: '#ffffff',
+        useCORS: true,
+        logging: false
+    });
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF('p', 'mm', 'a4');
+    const pageWidth = 210;
+    const pageHeight = 297;
+    const ratio = Math.min(pageWidth / canvas.width, pageHeight / canvas.height);
+    const imgWidth = canvas.width * ratio;
+    const imgHeight = canvas.height * ratio;
+    const x = (pageWidth - imgWidth) / 2;
+    const y = (pageHeight - imgHeight) / 2;
+    pdf.addImage(canvas.toDataURL('image/jpeg', 0.95), 'JPEG', x, y, imgWidth, imgHeight);
+    pdf.save('CV.pdf');
+}
+
+updateAll();
+</script>
+</body>
+</html>
